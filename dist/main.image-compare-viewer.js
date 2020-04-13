@@ -1,3 +1,14 @@
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
+
+/***/ "./src/scripts/index.js":
+/*!******************************!*\
+  !*** ./src/scripts/index.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 const defaults = {
   smoothing: true,
   smoothingAmount: 100,
@@ -248,4 +259,10 @@ class ImageCompare {
   }
 }
 
-export default ImageCompare;
+/* harmony default export */ __webpack_exports__["default"] = (ImageCompare);
+
+
+/***/ })
+
+},[["./src/scripts/index.js","runtime~main"]]]);
+//# sourceMappingURL=main.image-compare-viewer.js.map
