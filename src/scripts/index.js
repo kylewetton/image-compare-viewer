@@ -111,7 +111,7 @@ class ImageCompare {
 
       if (this.settings.fluidMode) {
         this.settings.verticalMode
-          ? (this.wrapper.style.clipPath = `inset(0 0 ${position}% 0)`)
+          ? (this.wrapper.style.clipPath = `inset(0 0 ${100 - position}% 0)`)
           : (this.wrapper.style.clipPath = `inset(0 0 0 ${position}%)`);
       } else {
         this.settings.verticalMode
@@ -128,7 +128,7 @@ class ImageCompare {
   _shapeContainer() {
     let imposter = document.createElement("div");
 
-    this.el.style.cssText = `
+    this.el.style.cssText += `
         position: relative;
         overflow: hidden;
         cursor: col-resize;
@@ -265,6 +265,8 @@ class ImageCompare {
     let children = this.el.children;
     children = [...children].filter((el) => el.nodeName === "IMG");
 
+    this.settings.verticalMode && children.reverse();
+
     for (let idx = 0; idx <= 1; idx++) {
       let child = children[idx];
 
@@ -299,7 +301,7 @@ class ImageCompare {
                 ? "100%"
                 : "50%"
             };
-            height: ${this.settings.verticalMode ? `50%` : `100%`};
+            height: 100%;
             right: 0;
             top: 0;
             overflow: hidden;
@@ -315,7 +317,9 @@ class ImageCompare {
             }
             ${
               this.settings.fluidMode &&
-              `background-image: url(${afterUrl}); clip-path: inset(0 0 0 50%)`
+              `background-image: url(${afterUrl}); clip-path: inset(${
+                this.settings.verticalMode ? ` 0 0 50% 0` : `0 0 0 50%`
+              })`
             }
         `;
 
@@ -341,5 +345,12 @@ class ImageCompare {
     }
   }
 }
+
+const el = document.getElementById("image-compare");
+
+let viewer = new ImageCompare(el, {
+  verticalMode: true,
+  fluidMode: true,
+}).mount();
 
 export default ImageCompare;
