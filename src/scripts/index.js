@@ -1,6 +1,7 @@
 class ImageCompare {
   constructor(el, settings = {}) {
     const defaults = {
+      hoverStart: false,
       smoothing: true,
       smoothingAmount: 100,
       controlColor: "#FFFFFF",
@@ -48,6 +49,7 @@ class ImageCompare {
 
     this.el.addEventListener("mouseenter", () => {
       this.arrowContainer.style.width = "100%";
+      this.settings.hoverStart && this._activate(true);
     });
 
     this.el.addEventListener("mouseleave", () => {
