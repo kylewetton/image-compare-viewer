@@ -131,7 +131,7 @@ class ImageCompare {
     this.el.style.cssText += `
         position: relative;
         overflow: hidden;
-        cursor: col-resize;
+        cursor: ${this.settings.verticalMode ? `row-resize` : `col-resize`};
       `;
 
     imposter.style.cssText = `
