@@ -1,13 +1,13 @@
-const defaults = {
-  smoothing: true,
-  smoothingAmount: 100,
-  controlColor: "#FFFFFF",
-  controlShadow: true,
-  fluidMode: false,
-};
-
 class ImageCompare {
   constructor(el, settings = {}) {
+    const defaults = {
+      smoothing: true,
+      smoothingAmount: 100,
+      controlColor: "#FFFFFF",
+      controlShadow: true,
+      fluidMode: false,
+    };
+
     this.settings = Object.assign(defaults, settings);
     this.el = el;
     this.images = {};
