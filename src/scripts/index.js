@@ -197,6 +197,7 @@ class ImageCompare {
       -moz-user-select: none;
       -webkit-user-select: none;
       user-select: none;
+      max-width: none;
       `;
 
       if (idx === 1) {
