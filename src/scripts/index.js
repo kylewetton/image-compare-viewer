@@ -1,9 +1,5 @@
 import "../styles/index.scss";
 
-const cjsGlobal = {
-  elements: document.querySelectorAll(".compare-js"),
-};
-
 const defaults = {
   smoothing: true,
   smoothingAmount: 100,
@@ -12,7 +8,7 @@ const defaults = {
   fluidMode: false,
 };
 
-class CompareJS {
+class ImageCompare {
   constructor(el, settings = {}) {
     this.settings = Object.assign(defaults, settings);
     this.el = el;
@@ -254,10 +250,4 @@ class CompareJS {
   }
 }
 
-cjsGlobal.elements.forEach((el) => {
-  let compare = new CompareJS(el, {
-    controlShadow: true,
-    fluidMode: false,
-  });
-  compare.mount();
-});
+export default ImageCompare;

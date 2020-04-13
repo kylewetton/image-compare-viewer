@@ -1,27 +1,31 @@
 {
-  "name": "webpack-starter",
+  "name": "compare-js",
   "version": "1.0.0",
-  "description": "A light foundation for your next frontend project based on webpack.",
+  "description": "A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly!",
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/webpack.config.prod.js  --colors",
     "start": "webpack-dev-server --host 0.0.0.0 --open --config webpack/webpack.config.dev.js"
   },
+  "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wbkd/webpack-starter.git"
+    "url": "git+https://github.com/kylewetton/compare-js"
   },
   "keywords": [
-    "webpack",
-    "startkit",
+    "before",
+    "after",
+    "compare",
+    "grading",
+    "images",
     "frontend",
     "es6",
     "javascript",
-    "webdev"
+    "vanilla"
   ],
-  "author": "webkid.io",
+  "author": "Kyle Wetton",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wbkd/webpack-starter/issues"
+    "url": "https://github.com/kylewetton/compare-js"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
