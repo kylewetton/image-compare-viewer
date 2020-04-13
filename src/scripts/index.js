@@ -1,11 +1,12 @@
 class ImageCompare {
   constructor(el, settings = {}) {
     const defaults = {
-      hoverStart: false,
-      smoothing: true,
-      smoothingAmount: 100,
       controlColor: "#FFFFFF",
       controlShadow: true,
+      smoothing: true,
+      smoothingAmount: 100,
+      hoverStart: false,
+      verticalMode: false,
       fluidMode: false,
     };
 
@@ -15,6 +16,7 @@ class ImageCompare {
     this.wrapper = null;
     this.control = null;
     this.arrowContainer = null;
+    this.arrowAnimator = [];
     this.active = false;
     this.slideWidth = 50;
   }
@@ -35,7 +37,6 @@ class ImageCompare {
     );
 
     this.el.addEventListener("mouseup", () => this._activate(false));
-    this.el.addEventListener("mouseleave", () => this._activate(false));
 
     // Mobile events
     this.el.addEventListener("touchstart", () => this._activate(true));
@@ -48,12 +49,39 @@ class ImageCompare {
     // hover
 
     this.el.addEventListener("mouseenter", () => {
-      this.arrowContainer.style.width = "100%";
       this.settings.hoverStart && this._activate(true);
+
+      this.arrowAnimator.forEach((anim, i) => {
+        anim.style.cssText = `
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.1s ease-out;
+        ${
+          this.settings.verticalMode
+            ? `transform: translateY(0px);`
+            : `transform: translateX(0px);`
+        }
+        `;
+      });
     });
 
     this.el.addEventListener("mouseleave", () => {
-      this.arrowContainer.style.width = "50%";
+      this._activate(false);
+
+      this.arrowAnimator.forEach((anim, i) => {
+        anim.style.cssText = `
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.1s ease-out;
+        ${
+          this.settings.verticalMode
+            ? `transform: translateY(${i === 0 ? `10px` : `-10px`});`
+            : `transform: translateX(${i === 0 ? `10px` : `-10px`});`
+        }
+        `;
+      });
     });
   }
 
@@ -63,13 +91,32 @@ class ImageCompare {
       ev.touches !== undefined
         ? ev.touches[0].clientX - bounds.left
         : ev.clientX - bounds.left;
-    let position = (x / bounds.width) * 100;
+    let y =
+      ev.touches !== undefined
+        ? ev.touches[0].clientY - bounds.top
+        : ev.clientY - bounds.top;
+
+    let position = this.settings.verticalMode
+      ? (y / bounds.height) * 100
+      : (x / bounds.width) * 100;
+
     if (position >= 0 && position <= 100) {
-      this.control.style.left = `calc(${position}% - ${this.slideWidth / 2}px)`;
+      this.settings.verticalMode
+        ? (this.control.style.top = `calc(${position}% - ${
+            this.slideWidth / 2
+          }px)`)
+        : (this.control.style.left = `calc(${position}% - ${
+            this.slideWidth / 2
+          }px)`);
+
       if (this.settings.fluidMode) {
-        this.wrapper.style.clipPath = `inset(0 0 0 ${position}%)`;
+        this.settings.verticalMode
+          ? (this.wrapper.style.clipPath = `inset(0 0 ${position}% 0)`)
+          : (this.wrapper.style.clipPath = `inset(0 0 0 ${position}%)`);
       } else {
-        this.wrapper.style.width = `calc(${100 - position}%)`;
+        this.settings.verticalMode
+          ? (this.wrapper.style.height = `calc(${position}%)`)
+          : (this.wrapper.style.width = `calc(${100 - position}%)`);
       }
     }
   }
@@ -105,8 +152,10 @@ class ImageCompare {
     const arrowSize = "20";
 
     arrows.style.cssText = `
-        width: 50%;
+        width: 100%;
+        height: 100%;
         display: flex;
+        ${this.settings.verticalMode && `flex-direction: column`};
         justify-content: space-between;
         align-items: center;
         position: absolute;
@@ -115,19 +164,29 @@ class ImageCompare {
     `;
 
     for (var idx = 0; idx <= 1; idx++) {
+      let animator = document.createElement(`div`);
       let arrow = `<svg
-       style="transform: rotateZ(${
-         idx === 0 ? `180deg` : `0deg`
+       style="
+       transform: 
+       rotateZ(${
+         idx === 0
+           ? this.settings.verticalMode
+             ? `-90deg`
+             : `180deg`
+           : this.settings.verticalMode
+           ? `90deg`
+           : `0deg`
        }); height: ${arrowSize}px; width: ${arrowSize}px;
        
        ${
-         this.settings.controlShadow &&
-         `
+         this.settings.controlShadow
+           ? `
        -webkit-filter: drop-shadow( 0px 3px 5px rgba(0, 0, 0, .5));
        filter: drop-shadow( 0px ${
          idx === 0 ? "-3px" : "3px"
        } 5px rgba(0, 0, 0, .5));
        `
+           : ``
        }
        "
        xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 42 86.6">
@@ -135,8 +194,24 @@ class ImageCompare {
          this.settings.controlColor
        }" d="M0 43.3V0l21 21.6 21 21.7L21 65 0 86.6V43.3z"/>
      </svg>`;
-      arrows.innerHTML += arrow;
+      animator.innerHTML += arrow;
+      this.arrowAnimator.push(animator);
+      arrows.appendChild(animator);
     }
+
+    this.arrowAnimator.forEach((anim, i) => {
+      anim.style.cssText = `
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.1s ease-out;
+      ${
+        this.settings.verticalMode
+          ? `transform: translateY(${i === 0 ? `10px` : `-10px`});`
+          : `transform: translateX(${i === 0 ? `10px` : `-10px`});`
+      }
+      `;
+    });
 
     control.style.cssText = `
     position: absolute;
@@ -144,10 +219,18 @@ class ImageCompare {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    height: 100%;
-    width: ${this.slideWidth}px;
-    top: 0;
-    left: calc(50% - ${this.slideWidth / 2}px);
+    height: ${this.settings.verticalMode ? `${this.slideWidth}px;` : `100%;`}
+    width: ${this.settings.verticalMode ? `100%;` : `${this.slideWidth}px;`}
+    top: ${
+      this.settings.verticalMode
+        ? `calc(50% - ${this.slideWidth / 2}px);`
+        : `0px;`
+    }
+    left: ${
+      this.settings.verticalMode
+        ? `0px;`
+        : `calc(50% - ${this.slideWidth / 2}px);`
+    }
     z-index: 5;
     ${
       "ontouchstart" in document.documentElement
@@ -159,8 +242,8 @@ class ImageCompare {
     `;
 
     uiLine.style.cssText = `
-        height: 100%;
-        width: 3px;
+        height: ${this.settings.verticalMode ? "3px" : "100%"};
+        width: ${this.settings.verticalMode ? "100%" : "3px"};
         z-index: 6;
         background: ${this.settings.controlColor};
         ${
@@ -186,8 +269,12 @@ class ImageCompare {
       let child = children[idx];
 
       child.style.cssText = `
-      width: ${idx === 1 ? `auto` : `100%`};
-      height: ${idx === 1 ? `100%` : `auto`};
+      width: ${
+        idx === 1 ? (this.settings.verticalMode ? `100%` : `auto`) : `100%`
+      };
+      height: ${
+        idx === 1 ? (this.settings.verticalMode ? `auto` : `100%`) : `auto`
+      };
       position: ${idx === 1 ? `absolute` : `static`};
       z-index: ${idx === 0 ? "1" : "2"};
       ${idx === 1 ? `right: 0;` : `left: 0;`};
@@ -207,8 +294,12 @@ class ImageCompare {
         let afterUrl = children[1].src;
         wrapper.style.cssText = `
             position: absolute;
-            width: ${this.settings.fluidMode ? "100%" : "50%"};
-            height: 100%;
+            width: ${
+              this.settings.fluidMode || this.settings.verticalMode
+                ? "100%"
+                : "50%"
+            };
+            height: ${this.settings.verticalMode ? `50%` : `100%`};
             right: 0;
             top: 0;
             overflow: hidden;
