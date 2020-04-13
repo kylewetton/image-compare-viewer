@@ -7,6 +7,9 @@ module.exports = ["source-map"].map((devtool) => ({
     path: path.resolve(__dirname, "dist"),
     filename: "image-compare-viewer.js",
     library: "imageCompareViewer",
+    libraryTarget: "umd",
+    libraryExport: "default",
+    umdNamedDefine: true,
   },
   devtool,
   optimization: {

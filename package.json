@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --host 0.0.0.0 --open --config webpack/webpack.config.dev.js",
     "pack": "NODE_ENV=production webpack --config webpack.config.js  --colors"
   },
-  "main": "dist/image-compare-viewer.js",
+  "main": "src/scripts/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kylewetton/image-compare-viewer"
