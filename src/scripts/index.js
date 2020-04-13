@@ -346,11 +346,11 @@ class ImageCompare {
   }
 }
 
-const el = document.getElementById("image-compare");
+// const el = document.getElementById("image-compare");
 
-let viewer = new ImageCompare(el, {
-  verticalMode: true,
-  fluidMode: true,
-}).mount();
+// let viewer = new ImageCompare(el, {
+//   verticalMode: true,
+//   fluidMode: true,
+// }).mount();
 
 export default ImageCompare;
