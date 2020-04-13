@@ -1,0 +1,18 @@
+body,
+html {
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+#debug {
+  position: absolute;
+  z-index: 100;
+  width: 1px;
+  height: 100%;
+  background: magenta;
+}
