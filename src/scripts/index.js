@@ -4,15 +4,24 @@ const cjsGlobal = {
   elements: document.querySelectorAll(".compare-js"),
 };
 
+const defaults = {
+  smoothing: true,
+  smoothingAmount: 100,
+  controlColor: "#FFFFFF",
+  controlShadow: true,
+  fluidMode: false,
+};
+
 class CompareJS {
-  constructor(el, slideWidth) {
+  constructor(el, settings = {}) {
+    this.settings = Object.assign(defaults, settings);
     this.el = el;
     this.images = {};
     this.wrapper = null;
     this.control = null;
     this.arrowContainer = null;
     this.active = false;
-    this.slideWidth = slideWidth;
+    this.slideWidth = 50;
   }
 
   mount() {
@@ -29,11 +38,16 @@ class CompareJS {
       "mousemove",
       (ev) => this.active && this._slideCompare(ev)
     );
+
     this.el.addEventListener("mouseup", () => this._activate(false));
     this.el.addEventListener("mouseleave", () => this._activate(false));
 
     // Mobile events
     this.el.addEventListener("touchstart", () => this._activate(true));
+    this.el.addEventListener(
+      "touchmove",
+      (ev) => this.active && this._slideCompare(ev)
+    );
     this.el.addEventListener("touchend", () => this._activate(false));
 
     // hover
@@ -43,23 +57,29 @@ class CompareJS {
     });
 
     this.el.addEventListener("mouseleave", () => {
-      this.arrowContainer.style.width = "80%";
+      this.arrowContainer.style.width = "50%";
     });
   }
 
   _slideCompare(ev) {
     let bounds = this.el.getBoundingClientRect();
-    let x = ev.clientX - bounds.left;
+    let x =
+      ev.touches !== undefined
+        ? ev.touches[0].clientX - bounds.left
+        : ev.clientX - bounds.left;
     let position = (x / bounds.width) * 100;
     if (position >= 0 && position <= 100) {
       this.control.style.left = `calc(${position}% - ${this.slideWidth / 2}px)`;
-      this.wrapper.style.width = `calc(${100 - position}%)`;
+      if (this.settings.fluidMode) {
+        this.wrapper.style.clipPath = `inset(0 0 0 ${position}%)`;
+      } else {
+        this.wrapper.style.width = `calc(${100 - position}%)`;
+      }
     }
   }
 
   _activate(state) {
     this.active = state;
-    // console.log(this.active);
   }
 
   _shapeContainer() {
@@ -68,6 +88,7 @@ class CompareJS {
     this.el.style.cssText = `
         position: relative;
         overflow: hidden;
+        cursor: col-resize;
       `;
 
     imposter.style.cssText = `
@@ -88,21 +109,35 @@ class CompareJS {
     const arrowSize = "20";
 
     arrows.style.cssText = `
-        width: 80%;
+        width: 50%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         position: absolute;
         transition: 0.1s ease-out;
+        z-index: 5;
     `;
 
     for (var idx = 0; idx <= 1; idx++) {
       let arrow = `<svg
        style="transform: rotateZ(${
          idx === 0 ? `180deg` : `0deg`
-       }); height: ${arrowSize}px; width: ${arrowSize}px;"
+       }); height: ${arrowSize}px; width: ${arrowSize}px;
+       
+       ${
+         this.settings.controlShadow &&
+         `
+       -webkit-filter: drop-shadow( 0px 3px 5px rgba(0, 0, 0, .5));
+       filter: drop-shadow( 0px ${
+         idx === 0 ? "-3px" : "3px"
+       } 5px rgba(0, 0, 0, .5));
+       `
+       }
+       "
        xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 42 86.6">
-       <path fill="#fff" d="M0 43.3V0l21 21.6 21 21.7L21 65 0 86.6V43.3z"/>
+       <path fill="${
+         this.settings.controlColor
+       }" d="M0 43.3V0l21 21.6 21 21.7L21 65 0 86.6V43.3z"/>
      </svg>`;
       arrows.innerHTML += arrow;
     }
@@ -118,13 +153,24 @@ class CompareJS {
     top: 0;
     left: calc(50% - ${this.slideWidth / 2}px);
     z-index: 5;
-    transition: 0.1s ease-out;
+    ${
+      "ontouchstart" in document.documentElement
+        ? ``
+        : this.settings.smoothing
+        ? `transition: ${this.settings.smoothingAmount}ms ease-out;`
+        : ``
+    }
     `;
 
     uiLine.style.cssText = `
         height: 100%;
         width: 3px;
-        background: white;
+        z-index: 6;
+        background: ${this.settings.controlColor};
+        ${
+          this.settings.controlShadow &&
+          `box-shadow: 0px 0px 15px rgba(0,0,0,0.5);`
+        }
     `;
 
     control.appendChild(uiLine);
@@ -134,10 +180,6 @@ class CompareJS {
 
     this.control = control;
     this.el.appendChild(control);
-  }
-
-  _moveWrapper() {
-    this.wrapper.style.width = "40%";
   }
 
   _getImages() {
@@ -154,7 +196,7 @@ class CompareJS {
       z-index: ${idx === 0 ? "1" : "2"};
       ${idx === 1 ? `right: 0;` : `left: 0;`};
       top: 0;
-      display: block;
+      display: ${this.settings.fluidMode ? "none" : "block"};
       pointer-events: none;
       -khtml-user-select: none;
       -o-user-select: none;
@@ -165,16 +207,28 @@ class CompareJS {
 
       if (idx === 1) {
         let wrapper = document.createElement("div");
-
+        let afterUrl = children[1].src;
         wrapper.style.cssText = `
             position: absolute;
-            width: 50%;
+            width: ${this.settings.fluidMode ? "100%" : "50%"};
             height: 100%;
             right: 0;
             top: 0;
             overflow: hidden;
+            background-size: cover;
+            background-position: center;
             z-index: 3;
-            transition: 0.1s ease-out;
+            ${
+              "ontouchstart" in document.documentElement
+                ? ``
+                : this.settings.smoothing
+                ? `transition: ${this.settings.smoothingAmount}ms ease-out;`
+                : ``
+            }
+            ${
+              this.settings.fluidMode &&
+              `background-image: url(${afterUrl}); clip-path: inset(0 0 0 50%)`
+            }
         `;
 
         wrapper.appendChild(child);
@@ -182,12 +236,28 @@ class CompareJS {
         this.el.appendChild(this.wrapper);
       }
     }
+    if (this.settings.fluidMode) {
+      let url = children[0].src;
+      let fluidWrapper = document.createElement("div");
+      fluidWrapper.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(${url});
+        background-size: cover;
+        background-position: center;
+      `;
+      this.el.appendChild(fluidWrapper);
+    }
   }
 }
 
-//
-
 cjsGlobal.elements.forEach((el) => {
-  let build = new CompareJS(el, 50);
-  build.mount();
+  let compare = new CompareJS(el, {
+    controlShadow: true,
+    fluidMode: false,
+  });
+  compare.mount();
 });
