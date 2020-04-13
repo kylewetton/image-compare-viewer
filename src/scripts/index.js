@@ -7,6 +7,7 @@ class ImageCompare {
       smoothingAmount: 100,
       hoverStart: false,
       verticalMode: false,
+      startingPoint: 50,
       fluidMode: false,
     };
 
@@ -223,13 +224,13 @@ class ImageCompare {
     width: ${this.settings.verticalMode ? `100%;` : `${this.slideWidth}px;`}
     top: ${
       this.settings.verticalMode
-        ? `calc(50% - ${this.slideWidth / 2}px);`
+        ? `calc(${this.settings.startingPoint}% - ${this.slideWidth / 2}px);`
         : `0px;`
     }
     left: ${
       this.settings.verticalMode
         ? `0px;`
-        : `calc(50% - ${this.slideWidth / 2}px);`
+        : `calc(${this.settings.startingPoint}% - ${this.slideWidth / 2}px);`
     }
     z-index: 5;
     ${
@@ -299,9 +300,15 @@ class ImageCompare {
             width: ${
               this.settings.fluidMode || this.settings.verticalMode
                 ? "100%"
-                : "50%"
+                : `${100 - this.settings.startingPoint}%`
             };
-            height: 100%;
+            height: ${
+              this.settings.verticalMode
+                ? this.settings.fluidMode
+                  ? `100%`
+                  : `${this.settings.startingPoint}%`
+                : `100%`
+            };
             right: 0;
             top: 0;
             overflow: hidden;
@@ -318,7 +325,9 @@ class ImageCompare {
             ${
               this.settings.fluidMode &&
               `background-image: url(${afterUrl}); clip-path: inset(${
-                this.settings.verticalMode ? ` 0 0 50% 0` : `0 0 0 50%`
+                this.settings.verticalMode
+                  ? ` 0 0 ${100 - this.settings.startingPoint}% 0`
+                  : `0 0 0 ${this.settings.startingPoint}%`
               })`
             }
         `;
@@ -346,11 +355,11 @@ class ImageCompare {
   }
 }
 
-// const el = document.getElementById("image-compare");
+const el = document.getElementById("image-compare");
 
-// let viewer = new ImageCompare(el, {
-//   verticalMode: true,
-//   fluidMode: true,
-// }).mount();
+let viewer = new ImageCompare(el, {
+  verticalMode: false,
+  fluidMode: false,
+}).mount();
 
 export default ImageCompare;
