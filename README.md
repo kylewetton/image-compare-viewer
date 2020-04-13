@@ -1,32 +1,27 @@
-# Webpack Frontend Starterkit
+# Image Compare (Viewer)
 
 [![Dependabot badge](https://flat.badgen.net/dependabot/wbkd/webpack-starter?icon=dependabot)](https://dependabot.com/)
 
-A lightweight foundation for your next webpack based frontend project.
-
+A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly!
 
 ### Installation
 
 ```
-npm install
+npm install image-compare-viewer --save
 ```
 
-### Start Dev Server
+### CDN, include this script before your JavaScript file in your project
 
 ```
-npm start
+https://unpkg.com/image-compare-viewer
 ```
 
-### Build Prod Version
+### Quick Start
 
 ```
 npm run build
 ```
 
-### Features:
+### Options
 
-* ES6 Support via [babel](https://babeljs.io/) (v7)
-* SASS Support via [sass-loader](https://github.com/jtangelder/sass-loader)
-* Linting via [eslint-loader](https://github.com/MoOx/eslint-loader)
-
-When you run `npm run build` we use the [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) to move the css to a separate file. The css file gets included in the head of the `index.html`.
+Coming soon

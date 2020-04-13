@@ -1,5 +1,5 @@
 {
-  "name": "compare-js",
+  "name": "image-compare-viewer",
   "version": "1.0.0",
   "description": "A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly!",
   "scripts": {
@@ -9,7 +9,7 @@
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kylewetton/compare-js"
+    "url": "git+https://github.com/kylewetton/image-compare-viewer"
   },
   "keywords": [
     "before",
@@ -25,7 +25,7 @@
   "author": "Kyle Wetton",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kylewetton/compare-js"
+    "url": "https://github.com/kylewetton/image-compare-viewer"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
