@@ -1,6 +1,10 @@
-# Image Compare (Viewer)
+![](screenshots/logo.jpg)
 
 A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly!
+
+![](screenshots/eg-1.jpg)
+
+![](screenshots/eg-2.jpg)
 
 ### Installation
 
