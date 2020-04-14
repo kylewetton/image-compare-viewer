@@ -8,6 +8,7 @@
     "pack": "NODE_ENV=production webpack --config webpack.config.js  --colors"
   },
   "main": "src/scripts/index.js",
+  "unpkg": "dist/image-compare-viewer.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kylewetton/image-compare-viewer"
