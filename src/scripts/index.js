@@ -38,9 +38,6 @@ class ImageCompare {
 
   _events() {
     let scrollStop = `
-      pointer-events: none;
-      touch-action: none;
-      background: blue;
     `;
 
     // Desktop events
