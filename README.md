@@ -15,7 +15,7 @@ npm install image-compare-viewer --save
 ### CDN, include this script before your JavaScript file in your project
 
 ```
-https://unpkg.com/image-compare-viewer
+https://unpkg.com/image-compare-viewer@1.1.1/dist/image-compare-viewer.min.js
 ```
 
 ### Documentation
