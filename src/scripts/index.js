@@ -37,6 +37,12 @@ class ImageCompare {
   }
 
   _events() {
+    let scrollStop = `
+      pointer-events: none;
+      touch-action: none;
+      background: blue;
+    `;
+
     // Desktop events
     this.el.addEventListener("mousedown", () => this._activate(true));
     this.el.addEventListener(
@@ -47,12 +53,20 @@ class ImageCompare {
     this.el.addEventListener("mouseup", () => this._activate(false));
 
     // Mobile events
-    this.el.addEventListener("touchstart", () => this._activate(true));
-    this.el.addEventListener(
-      "touchmove",
-      (ev) => this.active && this._slideCompare(ev)
-    );
-    this.el.addEventListener("touchend", () => this._activate(false));
+    this.el.addEventListener("touchstart", (e) => {
+      this._activate(true);
+      // document.body.style.cssText += scrollStop;
+      document.documentElement.style.cssText += scrollStop;
+    });
+
+    this.el.addEventListener("touchmove", (ev) => {
+      this.active && this._slideCompare(ev);
+    });
+    this.el.addEventListener("touchend", () => {
+      this._activate(false);
+      //  document.body.style.cssText -= scrollStop;
+      document.documentElement.style.cssText -= scrollStop;
+    });
 
     // hover
 
@@ -414,15 +428,15 @@ class ImageCompare {
   }
 }
 
-// const el = document.getElementById("image-compare");
+const el = document.getElementById("image-compare");
 
-// let viewer = new ImageCompare(el, {
-//   verticalMode: false,
-//   fluidMode: false,
-//   controlShadow: false,
-//   addCircle: false,
-//   addCircleBlur: false,
-//   startingPoint: 10,
-// }).mount();
+let viewer = new ImageCompare(el, {
+  verticalMode: true,
+  fluidMode: false,
+  controlShadow: false,
+  addCircle: false,
+  addCircleBlur: false,
+  startingPoint: 10,
+}).mount();
 
 export default ImageCompare;
