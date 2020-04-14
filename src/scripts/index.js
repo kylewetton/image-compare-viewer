@@ -3,6 +3,8 @@ class ImageCompare {
     const defaults = {
       controlColor: "#FFFFFF",
       controlShadow: true,
+      addCircle: false,
+      addCircleBlur: true,
       smoothing: true,
       smoothingAmount: 100,
       hoverStart: false,
@@ -20,6 +22,11 @@ class ImageCompare {
     this.arrowAnimator = [];
     this.active = false;
     this.slideWidth = 50;
+    this.lineWidth = 2;
+    this.arrowCoordinates = {
+      circle: [5, 3],
+      standard: [8, 0],
+    };
   }
 
   mount() {
@@ -51,6 +58,9 @@ class ImageCompare {
 
     this.el.addEventListener("mouseenter", () => {
       this.settings.hoverStart && this._activate(true);
+      let coord = this.settings.addCircle
+        ? this.arrowCoordinates.circle
+        : this.arrowCoordinates.standard;
 
       this.arrowAnimator.forEach((anim, i) => {
         anim.style.cssText = `
@@ -60,8 +70,8 @@ class ImageCompare {
         transition: 0.1s ease-out;
         ${
           this.settings.verticalMode
-            ? `transform: translateY(0px);`
-            : `transform: translateX(0px);`
+            ? `transform: translateY(${coord[1] * (i === 0 ? 1 : -1)}px);`
+            : `transform: translateX(${coord[1] * (i === 0 ? 1 : -1)}px);`
         }
         `;
       });
@@ -70,6 +80,10 @@ class ImageCompare {
     this.el.addEventListener("mouseleave", () => {
       this._activate(false);
 
+      let coord = this.settings.addCircle
+        ? this.arrowCoordinates.circle
+        : this.arrowCoordinates.standard;
+
       this.arrowAnimator.forEach((anim, i) => {
         anim.style.cssText = `
         display: flex;
@@ -78,8 +92,12 @@ class ImageCompare {
         transition: 0.1s ease-out;
         ${
           this.settings.verticalMode
-            ? `transform: translateY(${i === 0 ? `10px` : `-10px`});`
-            : `transform: translateX(${i === 0 ? `10px` : `-10px`});`
+            ? `transform: translateY(${
+                i === 0 ? `${coord[0]}px` : `-${coord[0]}px`
+              });`
+            : `transform: translateX(${
+                i === 0 ? `${coord[0]}px` : `-${coord[0]}px`
+              });`
         }
         `;
       });
@@ -150,6 +168,8 @@ class ImageCompare {
     let control = document.createElement("div");
     let uiLine = document.createElement("div");
     let arrows = document.createElement("div");
+    let circle = document.createElement("div");
+
     const arrowSize = "20";
 
     arrows.style.cssText = `
@@ -167,8 +187,11 @@ class ImageCompare {
     for (var idx = 0; idx <= 1; idx++) {
       let animator = document.createElement(`div`);
       let arrow = `<svg
+      height="15"
+      width="15"
        style="
        transform: 
+       scale(${this.settings.addCircle ? 0.7 : 1.5})  
        rotateZ(${
          idx === 0
            ? this.settings.verticalMode
@@ -190,15 +213,28 @@ class ImageCompare {
            : ``
        }
        "
-       xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 42 86.6">
-       <path fill="${
-         this.settings.controlColor
-       }" d="M0 43.3V0l21 21.6 21 21.7L21 65 0 86.6V43.3z"/>
+       xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 15 15">
+       <path ${
+         this.settings.addCircle
+           ? `fill="transparent"`
+           : `fill="${this.settings.controlColor}"`
+       }
+       stroke="${this.settings.controlColor}"
+       stroke-linecap="round"
+       stroke-width="${this.settings.addCircle ? 3 : 0}"
+
+       
+       d="M4.5 1.9L10 7.3l-5.5 5.4"
      </svg>`;
+
       animator.innerHTML += arrow;
       this.arrowAnimator.push(animator);
       arrows.appendChild(animator);
     }
+
+    let coord = this.settings.addCircle
+      ? this.arrowCoordinates.circle
+      : this.arrowCoordinates.standard;
 
     this.arrowAnimator.forEach((anim, i) => {
       anim.style.cssText = `
@@ -208,8 +244,12 @@ class ImageCompare {
       transition: 0.1s ease-out;
       ${
         this.settings.verticalMode
-          ? `transform: translateY(${i === 0 ? `10px` : `-10px`});`
-          : `transform: translateX(${i === 0 ? `10px` : `-10px`});`
+          ? `transform: translateY(${
+              i === 0 ? `${coord[0]}px` : `-${coord[0]}px`
+            });`
+          : `transform: translateX(${
+              i === 0 ? `${coord[0]}px` : `-${coord[0]}px`
+            });`
       }
       `;
     });
@@ -217,6 +257,7 @@ class ImageCompare {
     control.style.cssText = `
     position: absolute;
     display: flex;
+    flex-direction: ${this.settings.verticalMode ? `row` : `column`};
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
@@ -243,8 +284,8 @@ class ImageCompare {
     `;
 
     uiLine.style.cssText = `
-        height: ${this.settings.verticalMode ? "3px" : "100%"};
-        width: ${this.settings.verticalMode ? "100%" : "3px"};
+        height: ${this.settings.verticalMode ? `${this.lineWidth}px` : "50%"};
+        width: ${this.settings.verticalMode ? "50%" : `${this.lineWidth}px`};
         z-index: 6;
         background: ${this.settings.controlColor};
         ${
@@ -253,8 +294,26 @@ class ImageCompare {
         }
     `;
 
+    let uiLine2 = uiLine.cloneNode(true);
+
+    circle.style.cssText = `
+      width: 50px;
+      height: 50px;
+      ${this.settings.addCircleBlur && `backdrop-filter: blur(5px);`}
+      box-sizing: border-box;
+      flex-shrink: 0;
+      border-radius: 999px;
+      border: ${this.lineWidth}px solid ${this.settings.controlColor};
+      ${
+        this.settings.controlShadow &&
+        `box-shadow: 0px 0px 15px rgba(0,0,0,0.5);`
+      }  
+    `;
+
     control.appendChild(uiLine);
+    this.settings.addCircle && control.appendChild(circle);
     control.appendChild(arrows);
+    control.appendChild(uiLine2);
 
     this.arrowContainer = arrows;
 
@@ -360,6 +419,10 @@ class ImageCompare {
 // let viewer = new ImageCompare(el, {
 //   verticalMode: false,
 //   fluidMode: false,
+//   controlShadow: true,
+//   addCircle: true,
+//   addCircleBlur: false,
+//   startingPoint: 75,
 // }).mount();
 
 export default ImageCompare;
