@@ -224,7 +224,7 @@ class ImageCompare {
        stroke-width="${this.settings.addCircle ? 3 : 0}"
 
        
-       d="M4.5 1.9L10 7.3l-5.5 5.4"
+       d="M4.5 1.9L10 7.65l-5.5 5.4"
      </svg>`;
 
       animator.innerHTML += arrow;
@@ -419,10 +419,10 @@ class ImageCompare {
 // let viewer = new ImageCompare(el, {
 //   verticalMode: false,
 //   fluidMode: false,
-//   controlShadow: true,
-//   addCircle: true,
+//   controlShadow: false,
+//   addCircle: false,
 //   addCircleBlur: false,
-//   startingPoint: 75,
+//   startingPoint: 10,
 // }).mount();
 
 export default ImageCompare;
