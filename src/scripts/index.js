@@ -438,15 +438,15 @@ class ImageCompare {
   }
 }
 
-const el = document.getElementById("image-compare");
+// const el = document.getElementById("image-compare");
 
-let viewer = new ImageCompare(el, {
-  verticalMode: true,
-  fluidMode: false,
-  controlShadow: false,
-  addCircle: false,
-  addCircleBlur: false,
-  startingPoint: 10,
-}).mount();
+// let viewer = new ImageCompare(el, {
+//   verticalMode: true,
+//   fluidMode: false,
+//   controlShadow: false,
+//   addCircle: false,
+//   addCircleBlur: false,
+//   startingPoint: 10,
+// }).mount();
 
 export default ImageCompare;
