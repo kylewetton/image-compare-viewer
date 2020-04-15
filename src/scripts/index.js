@@ -323,7 +323,10 @@ class ImageCompare {
     circle.style.cssText = `
       width: 50px;
       height: 50px;
-      ${this.settings.addCircleBlur && `backdrop-filter: blur(5px);`}
+      ${
+        this.settings.addCircleBlur &&
+        `-webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);`
+      }
       box-sizing: border-box;
       flex-shrink: 0;
       border-radius: 999px;
