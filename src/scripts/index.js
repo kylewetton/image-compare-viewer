@@ -13,11 +13,12 @@ class ImageCompare {
       fluidMode: false,
     };
 
+    this.settings = Object.assign(defaults, settings);
+
     this.safariAgent =
       navigator.userAgent.indexOf("Safari") != -1 &&
       navigator.userAgent.indexOf("Chrome") == -1;
 
-    this.settings = Object.assign(defaults, settings);
     this.el = el;
     this.images = {};
     this.wrapper = null;
@@ -34,6 +35,11 @@ class ImageCompare {
   }
 
   mount() {
+    // Temporarily disable Safari smoothing
+    if (this.safariAgent) {
+      this.settings.smoothing = false;
+    }
+
     this._shapeContainer();
     this._getImages();
     this._buildControl();
@@ -292,7 +298,13 @@ class ImageCompare {
         : `calc(${this.settings.startingPoint}% - ${this.slideWidth / 2}px);`
     }
     z-index: 5;
-    ${"ontouchstart" in document.documentElement ? `` : ``}
+    ${
+      "ontouchstart" in document.documentElement
+        ? ``
+        : this.settings.smoothing
+        ? `transition: ${this.settings.smoothingAmount}ms ease-out;`
+        : ``
+    }
     `;
 
     uiLine.style.cssText = `
@@ -386,7 +398,13 @@ class ImageCompare {
             background-size: cover;
             background-position: center;
             z-index: 3;
-            ${"ontouchstart" in document.documentElement ? `` : ``}
+            ${
+              "ontouchstart" in document.documentElement
+                ? ``
+                : this.settings.smoothing
+                ? `transition: ${this.settings.smoothingAmount}ms ease-out;`
+                : ``
+            }
             ${
               this.settings.fluidMode &&
               `background-image: url(${afterUrl}); clip-path: inset(${
@@ -423,11 +441,12 @@ class ImageCompare {
 const el = document.getElementById("image-compare");
 
 let viewer = new ImageCompare(el, {
-  verticalMode: false,
+  verticalMode: true,
   fluidMode: false,
   controlShadow: false,
   addCircle: false,
   addCircleBlur: false,
+  startingPoint: 10,
 }).mount();
 
 export default ImageCompare;
