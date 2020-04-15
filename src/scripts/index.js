@@ -13,6 +13,10 @@ class ImageCompare {
       fluidMode: false,
     };
 
+    this.safariAgent =
+      navigator.userAgent.indexOf("Safari") != -1 &&
+      navigator.userAgent.indexOf("Chrome") == -1;
+
     this.settings = Object.assign(defaults, settings);
     this.el = el;
     this.images = {};
@@ -41,7 +45,10 @@ class ImageCompare {
     `;
 
     // Desktop events
-    this.el.addEventListener("mousedown", () => this._activate(true));
+    this.el.addEventListener("mousedown", (ev) => {
+      this._activate(true);
+      this._slideCompare(ev);
+    });
     this.el.addEventListener(
       "mousemove",
       (ev) => this.active && this._slideCompare(ev)
@@ -285,13 +292,7 @@ class ImageCompare {
         : `calc(${this.settings.startingPoint}% - ${this.slideWidth / 2}px);`
     }
     z-index: 5;
-    ${
-      "ontouchstart" in document.documentElement
-        ? ``
-        : this.settings.smoothing
-        ? `transition: ${this.settings.smoothingAmount}ms ease-out;`
-        : ``
-    }
+    ${"ontouchstart" in document.documentElement ? `` : ``}
     `;
 
     uiLine.style.cssText = `
@@ -385,13 +386,7 @@ class ImageCompare {
             background-size: cover;
             background-position: center;
             z-index: 3;
-            ${
-              "ontouchstart" in document.documentElement
-                ? ``
-                : this.settings.smoothing
-                ? `transition: ${this.settings.smoothingAmount}ms ease-out;`
-                : ``
-            }
+            ${"ontouchstart" in document.documentElement ? `` : ``}
             ${
               this.settings.fluidMode &&
               `background-image: url(${afterUrl}); clip-path: inset(${
@@ -425,15 +420,14 @@ class ImageCompare {
   }
 }
 
-// const el = document.getElementById("image-compare");
+const el = document.getElementById("image-compare");
 
-// let viewer = new ImageCompare(el, {
-//   verticalMode: true,
-//   fluidMode: false,
-//   controlShadow: false,
-//   addCircle: false,
-//   addCircleBlur: false,
-//   startingPoint: 10,
-// }).mount();
+let viewer = new ImageCompare(el, {
+  verticalMode: false,
+  fluidMode: false,
+  controlShadow: false,
+  addCircle: false,
+  addCircleBlur: false,
+}).mount();
 
 export default ImageCompare;
