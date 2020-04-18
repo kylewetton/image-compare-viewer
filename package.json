@@ -1,6 +1,6 @@
 {
   "name": "image-compare-viewer",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly!",
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/webpack.config.prod.js  --colors",
