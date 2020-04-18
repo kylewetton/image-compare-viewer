@@ -1,0 +1,173 @@
+#image-compare {
+}
+
+.icv {
+  position: relative;
+  overflow: hidden;
+  cursor: row-resize;
+
+  &__icv--vertical {
+    cursor: row-resize;
+  }
+
+  &__icv--horizontal {
+    cursor: col-resize;
+  }
+
+  &__img {
+    pointer-events: none;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    max-width: none;
+    width: 100%;
+    top: 0;
+    display: block;
+  }
+
+  &__is--fluid &__img {
+    display: none;
+  }
+
+  &__img-a {
+    height: auto;
+    position: static;
+    z-index: 1;
+    left: 0px;
+  }
+
+  &__img-b {
+    height: 100%;
+    position: absolute;
+    z-index: 2;
+    left: auto;
+    right: 0px;
+    width: auto;
+  }
+
+  &__icv--vertical &__img-b {
+    width: 100%;
+    height: auto;
+  }
+
+  &__imposter {
+    z-index: 4;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    right: 0px;
+    top: 0px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    z-index: 3;
+    transition: all 100ms ease-out 0s;
+  }
+
+  &__is--fluid &__wrapper,
+  &__icv--vertical &__wrapper {
+    width: 100% !important;
+  }
+
+  &__is--fluid &__wrapper,
+  &__icv--horizontal &__wrapper {
+    height: 100% !important;
+  }
+
+  &__fluidwrapper {
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__control {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    height: 100%;
+    top: 0px;
+    z-index: 5;
+    transition: all 100ms ease-out 0s;
+  }
+
+  &__icv--vertical &__control {
+    flex-direction: row;
+    left: 0;
+    width: 100%;
+  }
+
+  &__control-line {
+    height: 50%;
+    width: 2px;
+    z-index: 6;
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 15px;
+  }
+
+  &__icv--vertical &__control-line {
+    width: 50%;
+  }
+
+  &__theme-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    transition: all 0.1s ease-out 0s;
+    z-index: 5;
+  }
+
+  &__icv--vertical &__theme-wrapper {
+    flex-direction: column;
+  }
+
+  &__arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s ease-out 0s;
+  }
+
+  &__arrow-a {
+    transform: scale(1.5) rotateZ(180deg);
+    height: 20px;
+    width: 20px;
+    -webkit-filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0px -3px 5px rgba(0, 0, 0, 0.5));
+  }
+  &__arrow-b {
+    transform: scale(1.5) rotateZ(0deg);
+    height: 20px;
+    width: 20px;
+
+    -webkit-filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.5));
+  }
+
+  &__circle {
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    border-radius: 999px;
+  }
+}

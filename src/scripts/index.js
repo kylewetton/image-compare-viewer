@@ -1,4 +1,4 @@
-import "../styles/styles.scss";
+import "../styles/index.scss";
 
 class ImageCompare {
   constructor(el, settings = {}) {
@@ -90,10 +90,6 @@ class ImageCompare {
 
       this.arrowAnimator.forEach((anim, i) => {
         anim.style.cssText = `
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: 0.1s ease-out;
         ${
           this.settings.verticalMode
             ? `transform: translateY(${coord[1] * (i === 0 ? 1 : -1)}px);`
@@ -112,10 +108,6 @@ class ImageCompare {
 
       this.arrowAnimator.forEach((anim, i) => {
         anim.style.cssText = `
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: 0.1s ease-out;
         ${
           this.settings.verticalMode
             ? `transform: translateY(${
@@ -172,20 +164,15 @@ class ImageCompare {
 
   _shapeContainer() {
     let imposter = document.createElement("div");
+    this.el.classList.add(
+      `icv`,
+      this.settings.verticalMode
+        ? `icv__icv--vertical`
+        : `icv__icv--horizontal`,
+      this.settings.fluidMode ? `icv__is--fluid` : `standard`
+    );
 
-    this.el.style.cssText += `
-        position: relative;
-        overflow: hidden;
-        cursor: ${this.settings.verticalMode ? `row-resize` : `col-resize`};
-      `;
-
-    imposter.style.cssText = `
-    z-index: 4;
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    `;
+    imposter.classList.add("icv__imposter");
 
     this.el.appendChild(imposter);
   }
@@ -198,17 +185,7 @@ class ImageCompare {
 
     const arrowSize = "20";
 
-    arrows.style.cssText = `
-        width: 100%;
-        height: 100%;
-        display: flex;
-        ${this.settings.verticalMode && `flex-direction: column`};
-        justify-content: space-between;
-        align-items: center;
-        position: absolute;
-        transition: 0.1s ease-out;
-        z-index: 5;
-    `;
+    arrows.classList.add("icv__theme-wrapper");
 
     for (var idx = 0; idx <= 1; idx++) {
       let animator = document.createElement(`div`);
@@ -248,9 +225,8 @@ class ImageCompare {
        stroke="${this.settings.controlColor}"
        stroke-linecap="round"
        stroke-width="${this.settings.addCircle ? 3 : 0}"
-
-       
        d="M4.5 1.9L10 7.65l-5.5 5.4"
+       />
      </svg>`;
 
       animator.innerHTML += arrow;
@@ -263,11 +239,9 @@ class ImageCompare {
       : this.arrowCoordinates.standard;
 
     this.arrowAnimator.forEach((anim, i) => {
+      anim.classList.add("icv__arrow-wrapper");
+
       anim.style.cssText = `
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: 0.1s ease-out;
       ${
         this.settings.verticalMode
           ? `transform: translateY(${
@@ -280,26 +254,13 @@ class ImageCompare {
       `;
     });
 
+    control.classList.add("icv__control");
+
     control.style.cssText = `
-    position: absolute;
-    display: flex;
-    flex-direction: ${this.settings.verticalMode ? `row` : `column`};
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    height: ${this.settings.verticalMode ? `${this.slideWidth}px;` : `100%;`}
-    width: ${this.settings.verticalMode ? `100%;` : `${this.slideWidth}px;`}
-    top: ${
-      this.settings.verticalMode
-        ? `calc(${this.settings.startingPoint}% - ${this.slideWidth / 2}px);`
-        : `0px;`
-    }
-    left: ${
-      this.settings.verticalMode
-        ? `0px;`
-        : `calc(${this.settings.startingPoint}% - ${this.slideWidth / 2}px);`
-    }
-    z-index: 5;
+    ${this.settings.verticalMode ? `height` : `width `}: ${this.slideWidth}px;
+    ${this.settings.verticalMode ? `top` : `left `}: calc(${
+      this.settings.startingPoint
+    }% - ${this.slideWidth / 2}px);
     ${
       "ontouchstart" in document.documentElement
         ? ``
@@ -309,11 +270,11 @@ class ImageCompare {
     }
     `;
 
+    uiLine.classList.add("icv__control-line");
+
     uiLine.style.cssText = `
-        height: ${this.settings.verticalMode ? `${this.lineWidth}px` : "50%"};
-        width: ${this.settings.verticalMode ? "50%" : `${this.lineWidth}px`};
-        z-index: 6;
-        background: ${this.settings.controlColor};
+      ${this.settings.verticalMode ? `height` : `width `}: ${this.lineWidth}px;
+      background: ${this.settings.controlColor};
         ${
           this.settings.controlShadow &&
           `box-shadow: 0px 0px 15px rgba(0,0,0,0.5);`
@@ -322,16 +283,14 @@ class ImageCompare {
 
     let uiLine2 = uiLine.cloneNode(true);
 
+    circle.classList.add("icv__circle");
     circle.style.cssText = `
-      width: 50px;
-      height: 50px;
+
       ${
         this.settings.addCircleBlur &&
         `-webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);`
       }
-      box-sizing: border-box;
-      flex-shrink: 0;
-      border-radius: 999px;
+      
       border: ${this.lineWidth}px solid ${this.settings.controlColor};
       ${
         this.settings.controlShadow &&
@@ -359,50 +318,17 @@ class ImageCompare {
     for (let idx = 0; idx <= 1; idx++) {
       let child = children[idx];
 
-      child.style.cssText = `
-      width: ${
-        idx === 1 ? (this.settings.verticalMode ? `100%` : `auto`) : `100%`
-      };
-      height: ${
-        idx === 1 ? (this.settings.verticalMode ? `auto` : `100%`) : `auto`
-      };
-      position: ${idx === 1 ? `absolute` : `static`};
-      z-index: ${idx === 0 ? "1" : "2"};
-      ${idx === 1 ? `right: 0;` : `left: 0;`};
-      top: 0;
-      display: ${this.settings.fluidMode ? "none" : "block"};
-      pointer-events: none;
-      -khtml-user-select: none;
-      -o-user-select: none;
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      user-select: none;
-      max-width: none;
-      `;
+      child.classList.add("icv__img");
+      child.classList.add(idx === 0 ? `icv__img-a` : `icv__img-b`);
 
       if (idx === 1) {
         let wrapper = document.createElement("div");
         let afterUrl = children[1].src;
+        wrapper.classList.add("icv__wrapper");
         wrapper.style.cssText = `
-            position: absolute;
-            width: ${
-              this.settings.fluidMode || this.settings.verticalMode
-                ? "100%"
-                : `${100 - this.settings.startingPoint}%`
-            };
-            height: ${
-              this.settings.verticalMode
-                ? this.settings.fluidMode
-                  ? `100%`
-                  : `${this.settings.startingPoint}%`
-                : `100%`
-            };
-            right: 0;
-            top: 0;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            z-index: 3;
+            width: ${100 - this.settings.startingPoint}%; 
+            height: ${this.settings.startingPoint}%;
+
             ${
               "ontouchstart" in document.documentElement
                 ? ``
@@ -428,30 +354,23 @@ class ImageCompare {
     if (this.settings.fluidMode) {
       let url = children[0].src;
       let fluidWrapper = document.createElement("div");
+      fluidWrapper.classList.add("icv__fluidwrapper");
       fluidWrapper.style.cssText = `
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+ 
         background-image: url(${url});
-        background-size: cover;
-        background-position: center;
+        
       `;
       this.el.appendChild(fluidWrapper);
     }
   }
 }
 
-// const el = document.getElementById("image-compare");
+const el = document.getElementById("image-compare");
 
-// let viewer = new ImageCompare(el, {
-//   verticalMode: true,
-//   fluidMode: false,
-//   controlShadow: false,
-//   addCircle: false,
-//   addCircleBlur: false,
-//   startingPoint: 10,
-// }).mount();
+let viewer = new ImageCompare(el, {
+  verticalMode: 0,
+  fluidMode: 0,
+  addCircle: 1,
+}).mount();
 
 export default ImageCompare;
