@@ -29,6 +29,10 @@
   "bugs": {
     "url": "https://github.com/kylewetton/image-compare-viewer"
   },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ],
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
@@ -53,6 +57,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
-    "core-js": "^3.3.2"
+    "autoprefixer": "^9.7.6",
+    "core-js": "^3.3.2",
+    "postcss-loader": "^3.0.0"
   }
 }

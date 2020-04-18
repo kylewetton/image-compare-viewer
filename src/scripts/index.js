@@ -288,14 +288,14 @@ class ImageCompare {
 
       ${
         this.settings.addCircleBlur &&
-        `-webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);`
-      }
+        `-webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px)`
+      };
       
       border: ${this.lineWidth}px solid ${this.settings.controlColor};
       ${
         this.settings.controlShadow &&
-        `box-shadow: 0px 0px 15px rgba(0,0,0,0.5);`
-      }  
+        `box-shadow: 0px 0px 15px rgba(0,0,0,0.5)`
+      };
     `;
 
     control.appendChild(uiLine);
@@ -365,12 +365,8 @@ class ImageCompare {
   }
 }
 
-const el = document.getElementById("image-compare");
+// const el = document.getElementById("image-compare");
 
-let viewer = new ImageCompare(el, {
-  verticalMode: 0,
-  fluidMode: 0,
-  addCircle: 1,
-}).mount();
+// let viewer = new ImageCompare(el).mount();
 
 export default ImageCompare;
