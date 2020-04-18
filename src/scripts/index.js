@@ -1,5 +1,3 @@
-import "../styles/index.scss";
-
 class ImageCompare {
   constructor(el, settings = {}) {
     const defaults = {
