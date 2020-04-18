@@ -1,4 +1,5 @@
-// import "../styles/index.scss";
+// uncomment for packing
+//import "../styles/index.scss";
 
 class ImageCompare {
   constructor(el, settings = {}) {
