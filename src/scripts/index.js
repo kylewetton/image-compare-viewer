@@ -1,3 +1,5 @@
+// import "../styles/index.scss";
+
 class ImageCompare {
   constructor(el, settings = {}) {
     const defaults = {
@@ -206,10 +208,10 @@ class ImageCompare {
        ${
          this.settings.controlShadow
            ? `
-       -webkit-filter: drop-shadow( 0px 3px 5px rgba(0, 0, 0, .5));
+       -webkit-filter: drop-shadow( 0px 3px 5px rgba(0, 0, 0, .33));
        filter: drop-shadow( 0px ${
          idx === 0 ? "-3px" : "3px"
-       } 5px rgba(0, 0, 0, .5));
+       } 5px rgba(0, 0, 0, .33));
        `
            : ``
        }
@@ -275,7 +277,7 @@ class ImageCompare {
       background: ${this.settings.controlColor};
         ${
           this.settings.controlShadow &&
-          `box-shadow: 0px 0px 15px rgba(0,0,0,0.5);`
+          `box-shadow: 0px 0px 15px rgba(0,0,0,0.33);`
         }
     `;
 
@@ -292,7 +294,7 @@ class ImageCompare {
       border: ${this.lineWidth}px solid ${this.settings.controlColor};
       ${
         this.settings.controlShadow &&
-        `box-shadow: 0px 0px 15px rgba(0,0,0,0.5)`
+        `box-shadow: 0px 0px 15px rgba(0,0,0,0.33)`
       };
     `;
 
@@ -365,6 +367,6 @@ class ImageCompare {
 
 // const el = document.getElementById("image-compare");
 
-// let viewer = new ImageCompare(el).mount();
+// let viewer = new ImageCompare(el, {addCircle: true}).mount();
 
 export default ImageCompare;
