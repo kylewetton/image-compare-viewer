@@ -1,5 +1,5 @@
 // uncomment for packing
-//import "../styles/index.scss";
+import "../styles/index.scss";
 
 class ImageCompare {
   constructor(el, settings = {}) {
@@ -311,8 +311,12 @@ class ImageCompare {
   }
 
   _getImages() {
-    let children = this.el.children;
-    children = [...children].filter((el) => el.nodeName === "IMG");
+
+    let children = this.el.querySelectorAll('img, .keep');
+    this.el.innerHTML= "";
+    children.forEach(img => {
+      this.el.appendChild(img);
+    });
 
     this.settings.verticalMode && children.reverse();
 
