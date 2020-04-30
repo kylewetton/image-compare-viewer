@@ -1,5 +1,5 @@
 // uncomment for packing
-import "../styles/index.scss";
+//import "../styles/index.scss";
 
 class ImageCompare {
   constructor(el, settings = {}) {
@@ -8,6 +8,12 @@ class ImageCompare {
       controlShadow: true,
       addCircle: false,
       addCircleBlur: true,
+      showLabels: false,
+      labelOptions: {
+        before: 'Before',
+        after: 'After',
+        onHover: false
+      },
       smoothing: true,
       smoothingAmount: 100,
       hoverStart: false,
@@ -165,6 +171,32 @@ class ImageCompare {
 
   _shapeContainer() {
     let imposter = document.createElement("div");
+    let label_l = document.createElement('span');
+    let label_r = document.createElement('span');
+
+    label_l.classList.add('icv__label', 'icv__label-before', 'keep');
+    label_r.classList.add('icv__label', 'icv__label-after', 'keep');
+
+    if (this.settings.labelOptions.onHover) {
+      label_l.classList.add('on-hover');
+      label_r.classList.add('on-hover');  
+    }
+
+    if (this.settings.verticalMode) {
+      label_l.classList.add('vertical');
+      label_r.classList.add('vertical');  
+    }
+
+    
+    
+    label_l.innerHTML = this.settings.labelOptions.before || 'Before';
+    label_r.innerHTML = this.settings.labelOptions.after || 'After';
+    
+    if (this.settings.showLabels) {
+      this.el.appendChild(label_l);
+      this.el.appendChild(label_r);
+    }
+
     this.el.classList.add(
       `icv`,
       this.settings.verticalMode
@@ -190,6 +222,7 @@ class ImageCompare {
 
     for (var idx = 0; idx <= 1; idx++) {
       let animator = document.createElement(`div`);
+      
       let arrow = `<svg
       height="15"
       width="15"
@@ -277,8 +310,9 @@ class ImageCompare {
       ${this.settings.verticalMode ? `height` : `width `}: ${this.lineWidth}px;
       background: ${this.settings.controlColor};
         ${
-          this.settings.controlShadow &&
-          `box-shadow: 0px 0px 15px rgba(0,0,0,0.33);`
+          this.settings.controlShadow ?
+          `box-shadow: 0px 0px 15px rgba(0,0,0,0.33);` :
+          ``
         }
     `;
 
@@ -318,10 +352,13 @@ class ImageCompare {
       this.el.appendChild(img);
     });
 
-    this.settings.verticalMode && children.reverse();
+    let childrenImages = [...children].filter(element => element.nodeName.toLowerCase() === 'img');
+    
+  //  this.settings.verticalMode && [...children].reverse();
+    this.settings.verticalMode && childrenImages.reverse();
 
     for (let idx = 0; idx <= 1; idx++) {
-      let child = children[idx];
+      let child = childrenImages[idx];
 
       child.classList.add("icv__img");
       child.classList.add(idx === 0 ? `icv__img-a` : `icv__img-b`);
@@ -372,6 +409,13 @@ class ImageCompare {
 
 // const el = document.getElementById("image-compare");
 
-// let viewer = new ImageCompare(el, {addCircle: true}).mount();
+// let viewer = new ImageCompare(el, {
+//   showLabels: true,
+//   labelOptions: {
+//     onHover: true,
+//     before: 'Draft',
+//     after: 'Final'
+//   }
+// }).mount();
 
 export default ImageCompare;
