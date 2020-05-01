@@ -1,5 +1,5 @@
 // uncomment for packing
-import "../styles/index.scss";
+//import "../styles/index.scss";
 
 class ImageCompare {
   constructor(el, settings = {}) {
@@ -365,7 +365,7 @@ class ImageCompare {
 
       if (idx === 1) {
         let wrapper = document.createElement("div");
-        let afterUrl = children[1].src;
+        let afterUrl = childrenImages[1].src;
         wrapper.classList.add("icv__wrapper");
         wrapper.style.cssText = `
             width: ${100 - this.settings.startingPoint}%; 
@@ -394,7 +394,7 @@ class ImageCompare {
       }
     }
     if (this.settings.fluidMode) {
-      let url = children[0].src;
+      let url = childrenImages[0].src;
       let fluidWrapper = document.createElement("div");
       fluidWrapper.classList.add("icv__fluidwrapper");
       fluidWrapper.style.cssText = `
@@ -410,6 +410,9 @@ class ImageCompare {
 // const el = document.getElementById("image-compare");
 
 // let viewer = new ImageCompare(el, {
+//   controlShadow: false,
+//   fluidMode: true,
+//   verticalMode: true,
 //   showLabels: true,
 //   labelOptions: {
 //     onHover: true,
