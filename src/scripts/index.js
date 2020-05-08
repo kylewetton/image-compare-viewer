@@ -70,7 +70,7 @@ class ImageCompare {
     );
 
     this.el.addEventListener("mouseup", () => this._activate(false));
-
+    document.body.addEventListener("mouseup", () => this._activate(false));
     // Mobile events
     this.el.addEventListener("touchstart", (e) => {
       this._activate(true);
@@ -407,8 +407,8 @@ class ImageCompare {
 // const el = document.getElementById("image-compare");
 
 // let viewer = new ImageCompare(el, {
-//   controlShadow: false,
 //   hoverStart: true,
+//   controlShadow: false,
 //   showLabels: true,
 //   labelOptions: {
 //     onHover: true,
