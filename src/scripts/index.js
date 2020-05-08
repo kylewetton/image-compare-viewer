@@ -1,5 +1,5 @@
 // uncomment for packing
-//import "../styles/index.scss";
+import "../styles/index.scss";
 
 class ImageCompare {
   constructor(el, settings = {}) {
@@ -56,12 +56,14 @@ class ImageCompare {
   }
 
   _events() {
-    let scrollStop = `
+    let bodyStyles = `
+
     `;
 
     // Desktop events
     this.el.addEventListener("mousedown", (ev) => {
       this._activate(true);
+      document.body.classList.add("icv__body");
       this._slideCompare(ev);
     });
     this.el.addEventListener(
@@ -70,12 +72,15 @@ class ImageCompare {
     );
 
     this.el.addEventListener("mouseup", () => this._activate(false));
-    document.body.addEventListener("mouseup", () => this._activate(false));
+    document.body.addEventListener("mouseup", () => {
+      document.body.classList.remove("icv__body");
+      this._activate(false);
+    });
+
     // Mobile events
     this.el.addEventListener("touchstart", (e) => {
       this._activate(true);
-      // document.body.style.cssText += scrollStop;
-      document.documentElement.style.cssText += scrollStop;
+      document.body.classList.add("icv__body");
     });
 
     this.el.addEventListener("touchmove", (ev) => {
@@ -83,8 +88,7 @@ class ImageCompare {
     });
     this.el.addEventListener("touchend", () => {
       this._activate(false);
-      //  document.body.style.cssText -= scrollStop;
-      document.documentElement.style.cssText -= scrollStop;
+      document.body.classList.remove("icv__body");
     });
 
     // hover
@@ -407,7 +411,6 @@ class ImageCompare {
 // const el = document.getElementById("image-compare");
 
 // let viewer = new ImageCompare(el, {
-//   hoverStart: true,
 //   controlShadow: false,
 //   showLabels: true,
 //   labelOptions: {

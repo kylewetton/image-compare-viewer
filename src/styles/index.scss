@@ -20,8 +20,10 @@
     user-select: none;
     max-width: none;
     width: 100%;
-    margin: 0 !important; padding: 0 !important;
-    border: 0 !important; border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
     top: 0;
     display: block;
   }
@@ -170,7 +172,7 @@
     position: absolute;
     bottom: 1rem;
     z-index: 12;
-    background: rgba(0,0,0,0.33);
+    background: rgba(0, 0, 0, 0.33);
     color: white;
     border-radius: 3px;
     padding: 0.5rem 0.75rem;
@@ -185,7 +187,7 @@
 
   &__label.on-hover {
     transform: scale(0);
-    transition: 0.25s cubic-bezier(.68,.26,.58,1.22);
+    transition: 0.25s cubic-bezier(0.68, 0.26, 0.58, 1.22);
   }
 
   &:hover &__label.on-hover {
@@ -204,5 +206,12 @@
   &__label-after.vertical {
     bottom: 1rem;
     right: auto;
+  }
+
+  &__body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 }
