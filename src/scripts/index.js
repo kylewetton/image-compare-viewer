@@ -10,9 +10,9 @@ class ImageCompare {
       addCircleBlur: true,
       showLabels: false,
       labelOptions: {
-        before: 'Before',
-        after: 'After',
-        onHover: false
+        before: "Before",
+        after: "After",
+        onHover: false,
       },
       smoothing: true,
       smoothingAmount: 100,
@@ -107,8 +107,6 @@ class ImageCompare {
     });
 
     this.el.addEventListener("mouseleave", () => {
-      this._activate(false);
-
       let coord = this.settings.addCircle
         ? this.arrowCoordinates.circle
         : this.arrowCoordinates.standard;
@@ -171,27 +169,25 @@ class ImageCompare {
 
   _shapeContainer() {
     let imposter = document.createElement("div");
-    let label_l = document.createElement('span');
-    let label_r = document.createElement('span');
+    let label_l = document.createElement("span");
+    let label_r = document.createElement("span");
 
-    label_l.classList.add('icv__label', 'icv__label-before', 'keep');
-    label_r.classList.add('icv__label', 'icv__label-after', 'keep');
+    label_l.classList.add("icv__label", "icv__label-before", "keep");
+    label_r.classList.add("icv__label", "icv__label-after", "keep");
 
     if (this.settings.labelOptions.onHover) {
-      label_l.classList.add('on-hover');
-      label_r.classList.add('on-hover');  
+      label_l.classList.add("on-hover");
+      label_r.classList.add("on-hover");
     }
 
     if (this.settings.verticalMode) {
-      label_l.classList.add('vertical');
-      label_r.classList.add('vertical');  
+      label_l.classList.add("vertical");
+      label_r.classList.add("vertical");
     }
 
-    
-    
-    label_l.innerHTML = this.settings.labelOptions.before || 'Before';
-    label_r.innerHTML = this.settings.labelOptions.after || 'After';
-    
+    label_l.innerHTML = this.settings.labelOptions.before || "Before";
+    label_r.innerHTML = this.settings.labelOptions.after || "After";
+
     if (this.settings.showLabels) {
       this.el.appendChild(label_l);
       this.el.appendChild(label_r);
@@ -222,7 +218,7 @@ class ImageCompare {
 
     for (var idx = 0; idx <= 1; idx++) {
       let animator = document.createElement(`div`);
-      
+
       let arrow = `<svg
       height="15"
       width="15"
@@ -310,9 +306,9 @@ class ImageCompare {
       ${this.settings.verticalMode ? `height` : `width `}: ${this.lineWidth}px;
       background: ${this.settings.controlColor};
         ${
-          this.settings.controlShadow ?
-          `box-shadow: 0px 0px 15px rgba(0,0,0,0.33);` :
-          ``
+          this.settings.controlShadow
+            ? `box-shadow: 0px 0px 15px rgba(0,0,0,0.33);`
+            : ``
         }
     `;
 
@@ -345,16 +341,17 @@ class ImageCompare {
   }
 
   _getImages() {
-
-    let children = this.el.querySelectorAll('img, .keep');
-    this.el.innerHTML= "";
-    children.forEach(img => {
+    let children = this.el.querySelectorAll("img, .keep");
+    this.el.innerHTML = "";
+    children.forEach((img) => {
       this.el.appendChild(img);
     });
 
-    let childrenImages = [...children].filter(element => element.nodeName.toLowerCase() === 'img');
-    
-  //  this.settings.verticalMode && [...children].reverse();
+    let childrenImages = [...children].filter(
+      (element) => element.nodeName.toLowerCase() === "img"
+    );
+
+    //  this.settings.verticalMode && [...children].reverse();
     this.settings.verticalMode && childrenImages.reverse();
 
     for (let idx = 0; idx <= 1; idx++) {
@@ -411,14 +408,13 @@ class ImageCompare {
 
 // let viewer = new ImageCompare(el, {
 //   controlShadow: false,
-//   fluidMode: true,
-//   verticalMode: true,
+//   hoverStart: true,
 //   showLabels: true,
 //   labelOptions: {
 //     onHover: true,
-//     before: 'Draft',
-//     after: 'Final'
-//   }
+//     before: "Draft",
+//     after: "Final",
+//   },
 // }).mount();
 
 export default ImageCompare;
