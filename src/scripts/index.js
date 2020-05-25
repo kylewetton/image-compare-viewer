@@ -1,5 +1,6 @@
 // uncomment for packing
 //import "../styles/index.scss";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 class ImageCompare {
   constructor(el, settings = {}) {
@@ -64,6 +65,7 @@ class ImageCompare {
     this.el.addEventListener("mousedown", (ev) => {
       this._activate(true);
       document.body.classList.add("icv__body");
+      disableBodyScroll(this.el);
       this._slideCompare(ev);
     });
     this.el.addEventListener(
@@ -74,6 +76,7 @@ class ImageCompare {
     this.el.addEventListener("mouseup", () => this._activate(false));
     document.body.addEventListener("mouseup", () => {
       document.body.classList.remove("icv__body");
+      enableBodyScroll(this.el);
       this._activate(false);
     });
 
@@ -81,6 +84,7 @@ class ImageCompare {
     this.el.addEventListener("touchstart", (e) => {
       this._activate(true);
       document.body.classList.add("icv__body");
+      disableBodyScroll(this.el);
     });
 
     this.el.addEventListener("touchmove", (ev) => {
@@ -89,6 +93,7 @@ class ImageCompare {
     this.el.addEventListener("touchend", () => {
       this._activate(false);
       document.body.classList.remove("icv__body");
+      enableBodyScroll(this.el);
     });
 
     // hover
@@ -408,16 +413,19 @@ class ImageCompare {
   }
 }
 
-// const el = document.getElementById("image-compare");
+// const el = document.querySelectorAll(".image-compare");
 
-// let viewer = new ImageCompare(el, {
-//   controlShadow: false,
-//   showLabels: true,
-//   labelOptions: {
-//     onHover: true,
-//     before: "Draft",
-//     after: "Final",
-//   },
-// }).mount();
+// el.forEach((viewer) => {
+//   let v = new ImageCompare(viewer, {
+//     controlShadow: false,
+//     showLabels: true,
+//     verticalMode: true,
+//     labelOptions: {
+//       onHover: true,
+//       before: "Draft",
+//       after: "Final",
+//     },
+//   }).mount();
+// });
 
 export default ImageCompare;

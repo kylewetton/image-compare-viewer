@@ -58,6 +58,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
     "autoprefixer": "^9.7.6",
+    "body-scroll-lock": "^3.0.2",
     "core-js": "^3.3.2",
     "postcss-loader": "^3.0.0"
   }

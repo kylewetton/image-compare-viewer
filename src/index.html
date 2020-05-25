@@ -25,31 +25,27 @@
         justify-content: center;
         align-items: center;
       }
-      .debug {
-        background: red;
-        width: 100%;
-        display: flex;
-        justify-content: center;
+
+      .container {
+        max-width: 800px;
       }
     </style>
   </head>
   <body>
-    <div class="debug">
-      <!-- -->
-      <div class="container" style="max-width: 800px; margin: 0 auto;">
-        <div id="image-compare">
-          <h1 class="keep title">Two Bears</h1>
-          <img
-            src="https://image-compare-viewer.netlify.app/public/before-cgi.jpg"
-            alt=""
-          />
-          <img
-            src="https://image-compare-viewer.netlify.app/public/after-cgi.jpg"
-            alt=""
-          />
-        </div>
+    <!-- -->
+    <div class="container" style="margin: 300px auto;">
+      <div class="image-compare">
+        <img
+          src="https://image-compare-viewer.netlify.app/public/before-cgi.jpg"
+          alt=""
+        />
+        <img
+          src="https://image-compare-viewer.netlify.app/public/after-cgi.jpg"
+          alt=""
+        />
       </div>
     </div>
+
     <!-- -->
   </body>
 </html>
