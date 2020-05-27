@@ -81,7 +81,8 @@ class ImageCompare {
     });
 
     // Mobile events
-    this.el.addEventListener("touchstart", (e) => {
+
+    this.control.addEventListener("touchstart", (e) => {
       this._activate(true);
       document.body.classList.add("icv__body");
       disableBodyScroll(this.el);
@@ -419,7 +420,6 @@ class ImageCompare {
 //   let v = new ImageCompare(viewer, {
 //     controlShadow: false,
 //     showLabels: true,
-//     verticalMode: true,
 //     labelOptions: {
 //       onHover: true,
 //       before: "Draft",
