@@ -1,5 +1,5 @@
 // uncomment for packing
-//import "../styles/index.scss";
+// import "../styles/index.scss";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 class ImageCompare {
@@ -65,7 +65,7 @@ class ImageCompare {
     this.el.addEventListener("mousedown", (ev) => {
       this._activate(true);
       document.body.classList.add("icv__body");
-      disableBodyScroll(this.el);
+      disableBodyScroll(this.el, {reserveScrollBarGap: true});
       this._slideCompare(ev);
     });
     this.el.addEventListener(
@@ -85,7 +85,7 @@ class ImageCompare {
     this.control.addEventListener("touchstart", (e) => {
       this._activate(true);
       document.body.classList.add("icv__body");
-      disableBodyScroll(this.el);
+      disableBodyScroll(this.el, {reserveScrollBarGap: true});
     });
 
     this.el.addEventListener("touchmove", (ev) => {
