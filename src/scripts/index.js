@@ -351,14 +351,14 @@ class ImageCompare {
   }
 
   _getImages() {
-    let children = this.el.querySelectorAll("img, .keep");
+    let children = this.el.querySelectorAll("img, video, .keep");
     this.el.innerHTML = "";
     children.forEach((img) => {
       this.el.appendChild(img);
     });
 
     let childrenImages = [...children].filter(
-      (element) => element.nodeName.toLowerCase() === "img"
+      (element) => ["img", "video"].includes(element.nodeName.toLowerCase())
     );
 
     //  this.settings.verticalMode && [...children].reverse();
