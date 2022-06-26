@@ -3,9 +3,9 @@
   "version": "1.5.0",
   "description": "A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly!",
   "scripts": {
-    "build": "NODE_ENV=production webpack --config webpack/webpack.config.prod.js  --colors",
-    "start": "webpack-dev-server --host 0.0.0.0 --open --config webpack/webpack.config.dev.js",
-    "pack": "NODE_ENV=production webpack --config webpack.config.js  --colors"
+    "build": "webpack --mode production --config webpack/webpack.config.prod.js",
+    "start": "webpack-dev-server --host 127.0.0.1 --open --config webpack/webpack.config.dev.js",
+    "pack": "webpack --mode production --config webpack.config.js"
   },
   "main": "src/scripts/index.js",
   "unpkg": "dist/image-compare-viewer.min.js",
@@ -39,27 +39,27 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.6.3",
     "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^5.0.4",
-    "css-loader": "^3.2.0",
-    "eslint": "^6.5.1",
-    "eslint-loader": "^3.0.2",
-    "file-loader": "^4.2.0",
-    "html-webpack-plugin": "^4.0.0-beta.8",
-    "mini-css-extract-plugin": "^0.8.0",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.0",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.2",
-    "webpack-merge": "^4.2.2"
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.18.0",
+    "eslint-webpack-plugin": "^3.2.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "node-sass": "^7.0.1",
+    "sass-loader": "^13.0.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.2",
+    "webpack-merge": "^5.8.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
-    "autoprefixer": "^9.7.6",
-    "body-scroll-lock": "^3.0.2",
+    "autoprefixer": "^10.4.7",
+    "body-scroll-lock": "^4.0.0-beta.0",
     "core-js": "^3.3.2",
-    "postcss-loader": "^3.0.0"
+    "postcss-loader": "^7.0.0"
   }
 }

@@ -42,7 +42,9 @@ module.exports = ["source-map"].map((devtool) => ({
           {
             loader: "postcss-loader",
             options: {
-              plugins: () => [autoprefixer()],
+              postcssOptions: {
+                plugins: [[autoprefixer()]],
+              },
             },
           },
           "sass-loader",
