@@ -24,6 +24,7 @@ class ImageCompare {
     };
 
     this.settings = Object.assign(defaults, settings);
+    this.animationFrameId = null;
 
     this.safariAgent =
       navigator.userAgent.indexOf("Safari") != -1 &&
@@ -137,39 +138,32 @@ class ImageCompare {
     });
   }
 
-  _slideCompare(ev) {
-    let bounds = this.el.getBoundingClientRect();
-    let x =
-      ev.touches !== undefined
-        ? ev.touches[0].clientX - bounds.left
-        : ev.clientX - bounds.left;
-    let y =
-      ev.touches !== undefined
-        ? ev.touches[0].clientY - bounds.top
-        : ev.clientY - bounds.top;
+  _slideCompare (ev) {
+    if (this.animationFrameId === null) {
+      this.animationFrameId = requestAnimationFrame(() => {
+        const bounds = this.el.getBoundingClientRect();
+        const x = ev.touches !== undefined ? ev.touches[0].clientX - bounds.left : ev.clientX - bounds.left;
+        const y = ev.touches !== undefined ? ev.touches[0].clientY - bounds.top : ev.clientY - bounds.top;
+        const position = this.settings.verticalMode ? (y / bounds.height) * 100 : (x / bounds.width) * 100;
 
-    let position = this.settings.verticalMode
-      ? (y / bounds.height) * 100
-      : (x / bounds.width) * 100;
+        if (position >= 0 && position <= 100) {
+          this.settings.verticalMode
+            ? (this.control.style.top = `calc(${position}% - ${this.slideWidth / 2}px)`)
+            : (this.control.style.left = `calc(${position}% - ${this.slideWidth / 2}px)`);
 
-    if (position >= 0 && position <= 100) {
-      this.settings.verticalMode
-        ? (this.control.style.top = `calc(${position}% - ${
-            this.slideWidth / 2
-          }px)`)
-        : (this.control.style.left = `calc(${position}% - ${
-            this.slideWidth / 2
-          }px)`);
+          if (this.settings.fluidMode) {
+            this.settings.verticalMode
+              ? (this.wrapper.style.clipPath = `inset(0 0 ${100 - position}% 0)`)
+              : (this.wrapper.style.clipPath = `inset(0 0 0 ${position}%)`);
+          } else {
+            this.settings.verticalMode
+              ? (this.wrapper.style.height = `calc(${position}%)`)
+              : (this.wrapper.style.width = `calc(${100 - position}%)`);
+          }
+        }
 
-      if (this.settings.fluidMode) {
-        this.settings.verticalMode
-          ? (this.wrapper.style.clipPath = `inset(0 0 ${100 - position}% 0)`)
-          : (this.wrapper.style.clipPath = `inset(0 0 0 ${position}%)`);
-      } else {
-        this.settings.verticalMode
-          ? (this.wrapper.style.height = `calc(${position}%)`)
-          : (this.wrapper.style.width = `calc(${100 - position}%)`);
-      }
+        this.animationFrameId = null
+      })
     }
   }
 
