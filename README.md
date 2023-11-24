@@ -25,7 +25,7 @@ Stylesheet is available at "node_modules/image-compare-viewer/src/styles/index.s
 #### CSS
 
 ```
-<link type="text/css" href="https://unpkg.com/image-compare-viewer/dist/image-compare-viewer.min.css">
+<link rel="stylesheet" href="https://unpkg.com/image-compare-viewer/dist/image-compare-viewer.min.css">
 ```
 
 ### Documentation
