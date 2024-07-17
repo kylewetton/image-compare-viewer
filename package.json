@@ -1,6 +1,6 @@
 {
   "name": "image-compare-viewer",
-  "version": "1.5.0",
+  "version": "1.7.0",
   "description": "A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly!",
   "scripts": {
     "build": "webpack --mode production --config webpack/webpack.config.prod.js",
@@ -58,7 +58,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
     "autoprefixer": "^10.4.7",
-    "body-scroll-lock": "^4.0.0-beta.0",
+    "body-scroll-lock-upgrade": "^1.1.0",
     "core-js": "^3.3.2",
     "postcss-loader": "^7.0.0"
   }

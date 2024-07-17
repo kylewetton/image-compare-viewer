@@ -1,6 +1,6 @@
 // uncomment for packing
-// import "../styles/index.scss";
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import "../styles/index.scss";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock-upgrade";
 
 class ImageCompare {
   constructor(el, settings = {}) {
@@ -24,7 +24,6 @@ class ImageCompare {
     };
 
     this.settings = Object.assign(defaults, settings);
-    this.animationFrameId = null;
 
     this.safariAgent =
       navigator.userAgent.indexOf("Safari") != -1 &&
@@ -58,9 +57,7 @@ class ImageCompare {
   }
 
   _events() {
-    let bodyStyles = `
-
-    `;
+    let bodyStyles = ``;
 
     // Desktop events
     this.el.addEventListener("mousedown", (ev) => {
@@ -138,32 +135,40 @@ class ImageCompare {
     });
   }
 
-  _slideCompare (ev) {
-    if (this.animationFrameId === null) {
-      this.animationFrameId = requestAnimationFrame(() => {
-        const bounds = this.el.getBoundingClientRect();
-        const x = ev.touches !== undefined ? ev.touches[0].clientX - bounds.left : ev.clientX - bounds.left;
-        const y = ev.touches !== undefined ? ev.touches[0].clientY - bounds.top : ev.clientY - bounds.top;
-        const position = this.settings.verticalMode ? (y / bounds.height) * 100 : (x / bounds.width) * 100;
 
-        if (position >= 0 && position <= 100) {
-          this.settings.verticalMode
-            ? (this.control.style.top = `calc(${position}% - ${this.slideWidth / 2}px)`)
-            : (this.control.style.left = `calc(${position}% - ${this.slideWidth / 2}px)`);
+  _slideCompare(ev) {
+    let bounds = this.el.getBoundingClientRect();
+    let x =
+      ev.touches !== undefined
+        ? ev.touches[0].clientX - bounds.left
+        : ev.clientX - bounds.left;
+    let y =
+      ev.touches !== undefined
+        ? ev.touches[0].clientY - bounds.top
+        : ev.clientY - bounds.top;
 
-          if (this.settings.fluidMode) {
-            this.settings.verticalMode
-              ? (this.wrapper.style.clipPath = `inset(0 0 ${100 - position}% 0)`)
-              : (this.wrapper.style.clipPath = `inset(0 0 0 ${position}%)`);
-          } else {
-            this.settings.verticalMode
-              ? (this.wrapper.style.height = `calc(${position}%)`)
-              : (this.wrapper.style.width = `calc(${100 - position}%)`);
-          }
-        }
+    let position = this.settings.verticalMode
+      ? (y / bounds.height) * 100
+      : (x / bounds.width) * 100;
 
-        this.animationFrameId = null;
-      });
+    if (position >= 0 && position <= 100) {
+      this.settings.verticalMode
+        ? (this.control.style.top = `calc(${position}% - ${
+            this.slideWidth / 2
+          }px)`)
+        : (this.control.style.left = `calc(${position}% - ${
+            this.slideWidth / 2
+          }px)`);
+
+      if (this.settings.fluidMode) {
+        this.settings.verticalMode
+          ? (this.wrapper.style.clipPath = `inset(0 0 ${100 - position}% 0)`)
+          : (this.wrapper.style.clipPath = `inset(0 0 0 ${position}%)`);
+      } else {
+        this.settings.verticalMode
+          ? (this.wrapper.style.height = `calc(${position}%)`)
+          : (this.wrapper.style.width = `calc(${100 - position}%)`);
+      }
     }
   }
 
@@ -408,20 +413,21 @@ class ImageCompare {
   }
 }
 
-// const el = document.querySelectorAll(".image-compare");
+const el = document.querySelectorAll(".image-compare");
 
-// el.forEach((viewer) => {
-//   let v = new ImageCompare(viewer, {
-//     controlShadow: false,
-//     addCircle: true,
-//     addCircleBlur: true,
-//     showLabels: true,
-//     labelOptions: {
-//       onHover: true,
-//       before: "Draft",
-//       after: "Final",
-//     },
-//   }).mount();
-// });
+el.forEach((viewer) => {
+  let v = new ImageCompare(viewer, {
+    controlShadow: false,
+    addCircle: true,
+    addCircleBlur: true,
+    fluidMode: false,
+    showLabels: true,
+    labelOptions: {
+      onHover: true,
+      before: "Draft",
+      after: "Final",
+    },
+  }).mount();
+});
 
 export default ImageCompare;
