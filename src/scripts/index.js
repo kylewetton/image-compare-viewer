@@ -1,5 +1,5 @@
 // uncomment for packing
-import "../styles/index.scss";
+// import "../styles/index.scss";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock-upgrade";
 
 class ImageCompare {
@@ -413,21 +413,21 @@ class ImageCompare {
   }
 }
 
-const el = document.querySelectorAll(".image-compare");
+// const el = document.querySelectorAll(".image-compare");
 
-el.forEach((viewer) => {
-  let v = new ImageCompare(viewer, {
-    controlShadow: false,
-    addCircle: true,
-    addCircleBlur: true,
-    fluidMode: false,
-    showLabels: true,
-    labelOptions: {
-      onHover: true,
-      before: "Draft",
-      after: "Final",
-    },
-  }).mount();
-});
+// el.forEach((viewer) => {
+//   let v = new ImageCompare(viewer, {
+//     controlShadow: false,
+//     addCircle: true,
+//     addCircleBlur: true,
+//     fluidMode: false,
+//     showLabels: true,
+//     labelOptions: {
+//       onHover: true,
+//       before: "Draft",
+//       after: "Final",
+//     },
+//   }).mount();
+// });
 
 export default ImageCompare;
