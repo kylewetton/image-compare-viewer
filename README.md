@@ -1,6 +1,6 @@
 ![](screenshots/logo.jpg)
 
-A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly! [Check out live examples](https://image-compare-viewer.netlify.com/)
+A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly! [Check out live examples](https://image-compare-viewer.netlify.app/)
 
 ![](screenshots/eg-1.jpg)
 
