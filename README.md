@@ -1,6 +1,6 @@
 ![](screenshots/logo.jpg)
 
-A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly! [Check out live examples](https://image-compare-viewer.netlify.com/)
+A fully responsive slider to compare before and after images for grading, retouching and all else. Mobile and fluid container friendly! [Check out live examples](https://image-compare-viewer.netlify.app/)
 
 ![](screenshots/eg-1.jpg)
 
@@ -30,4 +30,4 @@ Stylesheet is available at "node_modules/image-compare-viewer/src/styles/index.s
 
 ### Documentation
 
-[Installation, usage, options and examples](https://image-compare-viewer.netlify.com/)
+[Installation, usage, options and examples](https://image-compare-viewer.netlify.app/)
