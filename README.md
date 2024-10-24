@@ -30,4 +30,4 @@ Stylesheet is available at "node_modules/image-compare-viewer/src/styles/index.s
 
 ### Documentation
 
-[Installation, usage, options and examples](https://image-compare-viewer.netlify.com/)
+[Installation, usage, options and examples](https://image-compare-viewer.netlify.app/)
