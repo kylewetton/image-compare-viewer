@@ -8,6 +8,7 @@
     "pack": "webpack --mode production --config webpack.config.js"
   },
   "main": "src/scripts/index.js",
+  "types": "src/scripts/index.d.ts",
   "unpkg": "dist/image-compare-viewer.min.js",
   "repository": {
     "type": "git",
